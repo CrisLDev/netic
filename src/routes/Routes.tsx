@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { IRoute, routeList } from './RoutesList';
 
 const Routes: React.FC = () => (
+
   <Switch>
     {routeList.map(( route: IRoute, i: number ) => (
       <Route
@@ -13,6 +14,7 @@ const Routes: React.FC = () => (
       />
     ))}
   </Switch>
+
 );
 
 export default Routes;
