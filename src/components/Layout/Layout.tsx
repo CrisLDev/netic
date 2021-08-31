@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Container } from '@material-ui/core';
 import Navbar from '../Navbar/Navbar';
+import Sidebar from '../Drawer/Sidebar';
 
 interface ILayoutProps {
   children: JSX.Element | JSX.Element[];
@@ -7,14 +9,18 @@ interface ILayoutProps {
 
 const Layout:React.FC<ILayoutProps> = ( props ) => {
   const { children } = props;
+  const [open, setOpen] = useState<boolean>( false );
 
   return (
     <>
       <header>
-        <Navbar />
+        <Navbar handleOpenSidebar={() => setOpen( true )} />
       </header>
       <main>
-        {children}
+        <Sidebar state={open} handleClose={() => setOpen( false )} />
+        <Container>
+          {children}
+        </Container>
       </main>
     </>
   );

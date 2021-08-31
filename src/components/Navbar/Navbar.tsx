@@ -36,8 +36,13 @@ const useStyles = makeStyles(( theme: Theme ) => createStyles({
   },
 }));
 
-const Navbar: React.FC = () => {
+interface INavbarProps {
+  handleOpenSidebar: () => void;
+}
+
+const Navbar: React.FC<INavbarProps> = ( props ) => {
   const classes = useStyles();
+  const { handleOpenSidebar } = props;
 
   return (
     <div className={classes.root}>
@@ -48,6 +53,7 @@ const Navbar: React.FC = () => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            onClick={handleOpenSidebar}
           >
             <MenuIcon />
           </IconButton>
