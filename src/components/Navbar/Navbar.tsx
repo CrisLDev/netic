@@ -37,7 +37,7 @@ const useStyles = makeStyles(( theme: Theme ) => createStyles({
 }));
 
 interface INavbarProps {
-  handleOpenSidebar: () => void;
+  handleOpenSidebar:any;
 }
 
 const Navbar: React.FC<INavbarProps> = ( props ) => {
@@ -68,10 +68,18 @@ const Navbar: React.FC<INavbarProps> = ( props ) => {
             <Typography variant="h6" className={classes.title}>
               Contact Chat UI
             </Typography>
+
+            <Link to="/search" className={classes.link}>
+              <Button color="inherit">Search User</Button>
+            </Link>
+            <Link to="/" className={classes.link}>
+              <Button color="inherit">Chat</Button>
+            </Link>
+            <Link to="/login" className={classes.link}>
+              <Button color="inherit">Login</Button>
+            </Link>
           </Box>
-          <Link to="/login" className={classes.link}>
-            <Button color="inherit">Login</Button>
-          </Link>
+
         </Toolbar>
       </AppBar>
     </div>

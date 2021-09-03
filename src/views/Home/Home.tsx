@@ -3,6 +3,7 @@ import { Grid, Paper, Box } from '@material-ui/core';
 import ChatExample from '../../components/Chat/ChatExample';
 // eslint-disable-next-line max-len
 import InicitalContainer from '../../components/InictialContainer/InicitalContainer';
+import ListChat from '../../components/ListChat/ListChat';
 
 const Home: React.FC = () => (
   <InicitalContainer>
@@ -16,6 +17,9 @@ const Home: React.FC = () => (
       </Grid>
       <Grid item xs={6}>
         <ChatExample />
+      </Grid>
+      <Grid item xs={6}>
+        <ListChat />
       </Grid>
     </Grid>
   </InicitalContainer>

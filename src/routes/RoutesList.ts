@@ -2,6 +2,7 @@ import { ServerStreamFileResponseOptionsWithError } from 'http2';
 import Home from '../views/Home/Home';
 import Login from '../views/Login/Login';
 import Register from '../views/Register/Register';
+import SearchContact from '../views/SearchContact/SearchContact';
 
 export interface IRoute {
   path: string;
@@ -23,5 +24,9 @@ export const routeList: IRoute[] = [
     path: '/login',
     name: 'Login',
     view: Login,
+  }, {
+    path: '/search',
+    name: 'Search',
+    view: SearchContact,
   },
 ];
