@@ -2,7 +2,10 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
 export const useStyle = makeStyles({
   background: {
-    background: 'hsl(138.06,42.74%,47.25%)',
+    background: 'hsl(247.13,58.37%,24.96%)',
+  },
+  cursor: {
+    cursor: 'pointer',
   },
 });
 

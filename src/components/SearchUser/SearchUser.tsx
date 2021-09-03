@@ -17,7 +17,7 @@ const SearchUser:React.FC = () => {
           alignItems="center"
         >
           <Box
-            bgcolor="hsl(138.06,42.74%,25.25%)"
+            bgcolor="hsl(263.38,53.97%,25.41%)"
             padding="0.5em"
             borderRadius="5em"
           >

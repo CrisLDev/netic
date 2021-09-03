@@ -17,22 +17,61 @@ const ListUsers:React.FC = () => {
           display="flex"
           justifyContent="center"
           alignItems="center"
-          bgcolor="hsl(138.06,42.74%,47.25%)"
-          padding="1em"
+
         >
-          <Grid item>
-            <Avatar src={url} className={avatar.large} />
-          </Grid>
-          <Paper elevation={3} className={classes.background}>
+          <Box
+            padding="1em"
+            display="flex"
+            bgcolor="hsl(247.13,58.37%,24.96%)"
+            borderRadius="2em"
+            className={classes.cursor}
+          >
             <Grid item>
-              <b>
-                @pucho jenzo
-                {' '}
-                <br />
-                Desarrollador developer
-              </b>
+              <Avatar src={url} className={avatar.large} />
             </Grid>
-          </Paper>
+            <Paper elevation={3} className={classes.background}>
+              <Grid item>
+                <b>
+                  @pucho jenzo
+                  {' '}
+                  <br />
+                  Desarrollador developer
+                </b>
+              </Grid>
+            </Paper>
+          </Box>
+        </Box>
+      </CardContent>
+
+      <CardContent>
+
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+
+        >
+          <Box
+            padding="1em"
+            display="flex"
+            bgcolor="hsl(247.13,58.37%,24.96%)"
+            borderRadius="2em"
+            className={classes.cursor}
+          >
+            <Grid item>
+              <Avatar src={url} className={avatar.large} />
+            </Grid>
+            <Paper elevation={3} className={classes.background}>
+              <Grid item>
+                <b>
+                  @pucho jenzo
+                  {' '}
+                  <br />
+                  Desarrollador developer
+                </b>
+              </Grid>
+            </Paper>
+          </Box>
         </Box>
       </CardContent>
     </Card>
