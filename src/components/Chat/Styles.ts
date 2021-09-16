@@ -31,4 +31,9 @@ export const useStyles = makeStyles({
     borderRadius: '0.2em',
     color: '#fff',
   },
+
+  heightCard: {
+    minHeight: '20em',
+
+  },
 });

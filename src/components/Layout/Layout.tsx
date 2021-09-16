@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container } from '@material-ui/core';
+import { ToastContainer } from 'react-toastify';
 import Navbar from '../Navbar/Navbar';
 import Sidebar from '../Drawer/Sidebar';
 
@@ -21,6 +22,7 @@ const Layout:React.FC<ILayoutProps> = ( props ) => {
         <Container>
           {children}
         </Container>
+        <ToastContainer position="top-left" />
       </main>
     </>
   );

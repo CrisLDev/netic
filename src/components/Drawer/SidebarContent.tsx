@@ -19,9 +19,12 @@ const SidebarContent: React.FC = () => {
   return (
     <>
       <Box display="block" textAlign="center">
+        <Typography className={classes.whiteTextColor}>
+          <h1>Hola mundo jajajsj</h1>
+        </Typography>
         <Link to="/">
           <Typography className={classes.whiteTextColor}>
-            Hola
+            Chat
           </Typography>
         </Link>
       </Box>

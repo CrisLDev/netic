@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 import SidebarContent from './SidebarContent';
 
-const drawerWidth = 100;
+const drawerWidth = 300;
 
 interface ISidebarProps {
   state: boolean;
@@ -61,7 +61,8 @@ const Sidebar: React.FC<ISidebarProps> = ( props ) => {
       <Hidden smDown>
         <Drawer
           className={classes.drawer}
-          variant="permanent"
+          open={state}
+          onClose={handleClose}
           classes={{
             paper: classes.drawerPaper,
           }}

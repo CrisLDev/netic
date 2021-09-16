@@ -8,7 +8,7 @@ import { useStyles } from './Styles';
 const ChatExample: React.FC = () => {
   const classes = useStyles();
   return (
-    <Card>
+    <Card className={classes.heightCard}>
       <CardHeader
         className={classes.cardHeader}
         title={(
@@ -17,13 +17,15 @@ const ChatExample: React.FC = () => {
               display="flex"
               alignItems="center"
             >
+              {/* eslint-disable-next-line max-len */}
               <Avatar src="https://i1.wp.com/hipertextual.com/wp-content/uploads/2021/06/Google-Imagenes-Main-Site.jpg?resize=768%2C512&ssl=1" />
+              {/* eslint-disable-next-line max-len */}
               <h6 className={`${classes.noMargin} ${classes.userName}`}><b>Enzo Tamaquiza</b></h6>
             </Box>
           </>
         )}
       />
-      <CardContent>
+      <CardContent className={classes.heightCard}>
         <p className={classes.someone}>Hola, como estás?</p>
         <Box display="flex" justifyContent="flex-end">
           <p className={classes.you}>Bien, y tu?</p>
@@ -31,6 +33,7 @@ const ChatExample: React.FC = () => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Grid
+          alignContent="flex-end"
           container
           direction="row"
           alignItems="center"
