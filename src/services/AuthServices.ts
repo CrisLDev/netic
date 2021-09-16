@@ -16,3 +16,7 @@ const API = 'https://elnetic.herokuapp.com/api';
 export const registerNewUser = async ( data:IRegisterData ):Promise<any> => {
   return await axios.post<IRegisterData>( `${API}/userAuth`, data );
 };
+
+export const deleteUser = async ( id:string ):Promise<any> => {
+  return await axios.delete( `${API}/userAuth/${id}` );
+};

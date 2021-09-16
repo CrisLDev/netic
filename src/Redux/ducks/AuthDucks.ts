@@ -78,15 +78,3 @@ void, RootState, null, AnyAction
     toast.error( 'register Fail' );
   }
 };
-
-export const reloadUser = ( data:IRegisterData ):
-ThunkAction<
-void, RootState, null, AnyAction
-> => async ( dispatch:Dispatch ) => {
-  
-  try {
-    
-  } catch ( error ) {
-    
-  }
-};
