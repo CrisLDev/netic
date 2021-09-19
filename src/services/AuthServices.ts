@@ -12,11 +12,23 @@ export const setToken = async ( token:string ) => {
   });
 };
 
-const API = 'https://elnetic.herokuapp.com/api';
+export const getToken = ():any => {
+  return Cookies.get( 'Authorization' );
+};
+
+const API = 'http://localhost:4000/api';
 export const registerNewUser = async ( data:IRegisterData ):Promise<any> => {
   return await axios.post<IRegisterData>( `${API}/userAuth`, data );
 };
 
 export const deleteUser = async ( id:string ):Promise<any> => {
   return await axios.delete( `${API}/userAuth/${id}` );
+};
+
+export const getUserToken = async ( token:string ):Promise<any> => {
+  if ( token ) {
+    axios.defaults.headers.common.Authorization = `beader ${token}`;
+  } else {
+    delete axios.defaults.headers.common.Authorization;
+  }
 };

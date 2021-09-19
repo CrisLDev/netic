@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Card, CardContent, CardActions, CardHeader, Fab, Avatar, Box, InputBase, Grid,
 } from '@material-ui/core';
 import { SendRounded } from '@material-ui/icons';
 import { useStyles } from './Styles';
+import socket from '../Socket/Socket';
+import { getToken, getUserToken } from '../../services/AuthServices';
 
 const ChatExample: React.FC = () => {
   const classes = useStyles();
+  /* const [User, setUser] = useState({
+    Authorization: '',
+  }); */
+
+  const setTokenInHeader = async ():Promise<void> => {
+    const token:string = getToken();
+    // eslint-disable-next-line no-console
+    console.log( token );
+    // eslint-disable-next-line no-console
+    await console.log( getUserToken( token ));
+  };
+
+  useEffect(() => {
+    socket.emit( 'connection' );
+  }, []);
+
   return (
     <Card className={classes.heightCard}>
       <CardHeader

@@ -62,10 +62,6 @@ export const register = ( data:IRegisterData ):
 ThunkAction<
 void, RootState, null, AnyAction
 > => async ( dispatch:Dispatch ) => {
-  /* const config = {
-    headers: { 'Content-Type': 'application/json' },
-  }; */
-
   try {
     dispatch( actions.putLoading( true ));
     const response = await registerNewUser( data );
