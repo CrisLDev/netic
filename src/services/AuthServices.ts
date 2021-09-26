@@ -3,7 +3,7 @@
 /* eslint-disable no-return-await */
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { IRegisterData } from '../Interfaces/AuthInterface';
+import { ILoginData, IRegisterData } from '../Interfaces/AuthInterface';
 
 export const setToken = async ( token:string ) => {
   const threeHours = new Date( new Date().getTime() + 180 * 60 * 1000 );
@@ -31,4 +31,8 @@ export const getUserToken = async ( token:string ):Promise<any> => {
   } else {
     delete axios.defaults.headers.common.Authorization;
   }
+};
+
+export const loginUser = async ( data:ILoginData ):Promise<any> => {
+  return await axios.post( `${API}/loginAuth`, data );
 };

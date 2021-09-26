@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
 import { AnyAction, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { IRegisterData } from '../../Interfaces/AuthInterface';
-import { registerNewUser, setToken } from '../../services/AuthServices';
+import { ILoginData, IRegisterData } from '../../Interfaces/AuthInterface';
+import { loginUser, registerNewUser, setToken } from '../../services/AuthServices';
 import { RootState } from '../Store';
 
 export const actionTypes = {
@@ -64,13 +64,29 @@ void, RootState, null, AnyAction
 > => async ( dispatch:Dispatch ) => {
   try {
     dispatch( actions.putLoading( true ));
-    const response = await registerNewUser( data );
-    setToken( response.data.token );
+    await registerNewUser( data );
     dispatch( actions.putLoading( false ));
     dispatch( actions.registerSuccess());
     toast.success( 'register success' );
   } catch ( error ) {
     dispatch( actions.registerFail());
     toast.error( 'register Fail' );
+  }
+};
+
+export const authLogin = ( data:ILoginData ):
+ThunkAction<
+void, RootState, null, AnyAction
+> => async ( dispatch:Dispatch ) => {
+  try {
+    dispatch( actions.putLoading( true ));
+    const response = await loginUser( data );
+    setToken( response.data.token );
+    dispatch( actions.putLoading( false ));
+    dispatch( actions.registerSuccess());
+    toast.success( 'login success' );
+  } catch ( error ) {
+    dispatch( actions.registerFail());
+    toast.error( 'login Fail' );
   }
 };

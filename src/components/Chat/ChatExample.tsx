@@ -1,29 +1,91 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Card, CardContent, CardActions, CardHeader, Fab, Avatar, Box, InputBase, Grid,
+  Card, CardContent,
+  CardActions, CardHeader, Fab, Avatar, Box, InputBase, Grid, Button,
 } from '@material-ui/core';
-import { SendRounded } from '@material-ui/icons';
+import { SendRounded, CloseRounded } from '@material-ui/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { format } from 'timeago.js';
 import { useStyles } from './Styles';
 import socket from '../Socket/Socket';
-import { getToken, getUserToken } from '../../services/AuthServices';
+import { closeChats } from '../../Redux/ducks/ChatDunks';
+import { loadeMessage, newMessage, newMessageRecived } from '../../Redux/ducks/messageDunks';
+import { MessageInterface } from '../../Interfaces/MessageInterface';
+import { IUser } from '../../Interfaces/UsersInterface';
 
-const ChatExample: React.FC = () => {
+interface Ichat {
+  chatSelect: any;
+  perfil: IUser;
+}
+const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
+  // eslint-disable-next-line no-underscore-dangle
+  if ( chatSelect.userId._id === perfil._id ) {
+    // eslint-disable-next-line no-param-reassign
+    chatSelect.userId = chatSelect.meId;
+  }
   const classes = useStyles();
-  /* const [User, setUser] = useState({
-    Authorization: '',
-  }); */
-
-  const setTokenInHeader = async ():Promise<void> => {
-    const token:string = getToken();
-    // eslint-disable-next-line no-console
-    console.log( token );
-    // eslint-disable-next-line no-console
-    await console.log( getUserToken( token ));
-  };
+  const [mensajeUser, setMensaje] = useState( '' );
+  const dispatch = useDispatch();
+  const [messageSoc, setMessageSoc] = useState({});
 
   useEffect(() => {
-    socket.emit( 'connection' );
+    // eslint-disable-next-line no-underscore-dangle
+    dispatch( loadeMessage( chatSelect._id ));
+  }, [chatSelect]);
+
+  useEffect(() => {
+    socket.on( 'reciveMessage', ( data ) => {
+      // eslint-disable-next-line no-console
+      console.log( data );
+      setMessageSoc({
+        sender: data.senderId,
+        text: data.message,
+        createdAt: Date.now(),
+      });
+      socket.emit( 'recivide', { recivide: 'recivide' });
+    });
   }, []);
+
+  useEffect(() => {
+    if ( messageSoc ) {
+      dispatch( newMessageRecived( messageSoc ));
+    }
+  }, [messageSoc]);
+
+  const submit = ( e:any ):void => {
+    e.preventDefault();
+    const mensaje:MessageInterface = {
+      // eslint-disable-next-line no-underscore-dangle
+      chatId: chatSelect._id,
+      // eslint-disable-next-line no-underscore-dangle
+      sender: perfil._id,
+      text: mensajeUser,
+    };
+    dispatch( newMessage( mensaje ));
+    // eslint-disable-next-line no-console
+    console.log( mensaje );
+
+    socket.emit( 'sendMessage', {
+      message: mensajeUser,
+      // eslint-disable-next-line no-underscore-dangle
+      senderId: perfil._id,
+      // eslint-disable-next-line no-underscore-dangle
+      reciveId: chatSelect.userId._id,
+    });
+    setMensaje( '' );
+  };
+
+  const scrollToBottom = (): void => {
+    document.getElementById( 'scroll' )?.scrollIntoView({ behavior: 'smooth' });
+  };
+  const arrayMessage = useSelector(( state:any ) => state.message.message );
+  useEffect(() => {
+    scrollToBottom();
+  }, [arrayMessage]);
+
+  const onClick = ():void => {
+    dispatch( closeChats( true ));
+  };
 
   return (
     <Card className={classes.heightCard}>
@@ -38,41 +100,81 @@ const ChatExample: React.FC = () => {
               {/* eslint-disable-next-line max-len */}
               <Avatar src="https://i1.wp.com/hipertextual.com/wp-content/uploads/2021/06/Google-Imagenes-Main-Site.jpg?resize=768%2C512&ssl=1" />
               {/* eslint-disable-next-line max-len */}
-              <h6 className={`${classes.noMargin} ${classes.userName}`}><b>Enzo Tamaquiza</b></h6>
+              <h6 className={`${classes.noMargin} ${classes.userName}`}><b>{chatSelect.userId.username}</b></h6>
+              {/* <h6 className={`${classes.noMargin} ${classes.userName}`}><b>{chatSelect.userId.username === perfil.username && chatSelect.meId.username }</b></h6> */}
+              <Box onClick={() => { onClick(); }}>
+                <CloseRounded />
+              </Box>
             </Box>
           </>
         )}
       />
-      <CardContent className={classes.heightCard}>
-        <p className={classes.someone}>Hola, como estás?</p>
-        <Box display="flex" justifyContent="flex-end">
-          <p className={classes.you}>Bien, y tu?</p>
-        </Box>
-      </CardContent>
-      <CardActions className={classes.cardActions}>
-        <Grid
-          alignContent="flex-end"
-          container
-          direction="row"
-          alignItems="center"
-        >
-          <Grid item xs={10}>
-            <InputBase
-              className={classes.nakedInput}
-              defaultValue="Naked input"
-              inputProps={{ 'aria-label': 'naked' }}
-              placeholder="Escribe aqui..."
-            />
+      <form onSubmit={submit}>
+        <CardContent className={classes.cardContentHeight}>
+          {
+            arrayMessage.map(( e:any, index:number ) => {
+              // eslint-disable-next-line no-underscore-dangle
+              if ( e.sender === perfil._id ) {
+                return (
+                  <Box display="flex" justifyContent="flex-end">
+                    <p key={index.toString()} className={classes.you}>
+                      {e.text}
+                      <br />
+                      <Box fontSize="12px" display="flex" justifyContent="flex-end">
+                        <Box>
+                          {format( e.createdAt )}
+                        </Box>
+                      </Box>
+                    </p>
+                  </Box>
+                );
+              }
+              return (
+                <p className={classes.someone}>
+                  {e.text}
+                  <br />
+                  <Box fontSize="12px" display="flex" justifyContent="flex-end">
+                    <Box>
+                      {format( e.createdAt )}
+                    </Box>
+                  </Box>
+                </p>
+              );
+            })
+          }
+          <div id="scroll" />
+        </CardContent>
+        <CardActions className={classes.cardActions}>
+          <Grid
+            alignContent="flex-end"
+            container
+            direction="row"
+            alignItems="center"
+          >
+            <Grid item xs={10}>
+              <InputBase
+                className={classes.nakedInput}
+                defaultValue="Naked input"
+                inputProps={{ 'aria-label': 'naked' }}
+                placeholder="Escribe aqui..."
+                value={mensajeUser}
+                onChange={( e ) => {
+                  setMensaje( e.target.value );
+                }}
+              />
+            </Grid>
+            <Grid item xs={1}>
+              <Button type="submit">
+                <Fab
+                  size="small"
+                >
+                  <SendRounded />
+                </Fab>
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={1}>
-            <Fab
-              size="small"
-            >
-              <SendRounded />
-            </Fab>
-          </Grid>
-        </Grid>
-      </CardActions>
+        </CardActions>
+      </form>
     </Card>
   );
 };

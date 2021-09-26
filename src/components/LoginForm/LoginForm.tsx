@@ -10,7 +10,9 @@ import {
   Paper,
 } from '@material-ui/core';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { authLogin } from '../../Redux/ducks/AuthDucks';
 
 type InputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -24,29 +26,31 @@ const useStyles = makeStyles({
   },
   textDecorate: {
     textDecoration: 'none',
-    color: 'white',
+    color: 'green',
   },
 });
 
 const LoginForm: React.FC = () => {
   const classes = useStyles();
   const [loginInfo, setLoginInfo] = useState({
-    userName: '',
+    username: '',
     password: '',
   });
+  const dispatch = useDispatch();
   const [loggedError, setLoggedError] = useState( false );
 
   const handleInputChange = ( e: InputChange ): void => {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
   };
 
-  const { userName, password } = loginInfo;
+  const { username, password } = loginInfo;
 
   const history = useHistory();
 
   const handleSubmit = ( e: FormEvent<HTMLFormElement> ): any => {
     e.preventDefault();
-    if ( userName === 'admin' && password === 'admin' ) {
+    dispatch( authLogin( loginInfo ));
+    if ( username === 'admin' && password === 'admin' ) {
       history.push( '/' );
     }
     setLoggedError( true );
@@ -75,9 +79,9 @@ const LoginForm: React.FC = () => {
             <TextField
               id="nameUser"
               label="Name User"
-              name="userName"
+              name="username"
               onChange={handleInputChange}
-              value={userName}
+              value={username}
               fullWidth
               required
             />
