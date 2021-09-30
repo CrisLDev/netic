@@ -23,15 +23,13 @@ export default function usersReducer( state = initialState, action:any ):any {
 
   switch ( type ) {
     case actionTypes.MESSAGE:
-      // eslint-disable-next-line no-console
-      console.log( payload );
+
       return {
         ...state,
         message: [...state.message, payload],
       };
     case actionTypes.MESSAGELOA:
-      // eslint-disable-next-line no-console
-      console.log( payload );
+
       return {
         ...state,
         message: payload,
@@ -69,11 +67,8 @@ export const newMessage = ( message:MessageInterface | any ):
 ThunkAction<
 void, RootState, null, AnyAction
 > => async ( dispatch:any ) => {
-  // eslint-disable-next-line no-console
-  console.log( message );
   const savedMessage = await entreMessage( message );
-  // eslint-disable-next-line no-console
-  console.log( savedMessage );
+
   dispatch( action.messagenew( savedMessage.data ));
 };
 

@@ -52,8 +52,6 @@ const ListChat:React.FC = ( ) => {
 
   useEffect(() => {
     socket.on( 'listUser', ( connect ) => {
-      // eslint-disable-next-line no-console
-      console.log( connect );
       if ( connect.listUser ) {
         dispatch( active( connect ));
       } else {

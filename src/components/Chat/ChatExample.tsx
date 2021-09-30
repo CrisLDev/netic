@@ -39,8 +39,6 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
 
   useEffect(() => {
     socket.on( 'reciveMessage', ( data ) => {
-      // eslint-disable-next-line no-console
-      console.log( data );
       setMessageSoc({
         sender: data.senderId,
         text: data.message,

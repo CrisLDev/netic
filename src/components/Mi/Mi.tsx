@@ -19,10 +19,6 @@ const Mi:React.FC = () => {
       <Button
         variant="contained"
         className={classes.with}
-        onClick={() => {
-          // eslint-disable-next-line no-console
-          console.log( 'diste click' );
-        }}
       >
         {loadme ? (
           <h1>
