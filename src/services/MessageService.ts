@@ -10,7 +10,7 @@ export const entreMessage = async ( data:MessageInterface ):Promise<any> => {
   return await axios.post<MessageInterface>( `${API}/newmensaje`, data );
 };
 
-export const getMessageById = async ( chatId:any ):Promise<any> => {
+export const getMessageById = async ( chatId:string ):Promise<any> => {
   const chat = {
     chatId,
   };

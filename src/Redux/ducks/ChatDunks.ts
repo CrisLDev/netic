@@ -64,6 +64,8 @@ void, RootState, null, AnyAction
   const token = getToken();
   getUserToken( token );
   const res = await chatOpenService( data );
+  // eslint-disable-next-line no-console
+  console.log( typeof ( res ));
   dispatch( action.activeChat( res.data.chat ));
   dispatch( closeChats( false ));
 };

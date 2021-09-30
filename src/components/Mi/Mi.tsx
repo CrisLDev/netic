@@ -10,7 +10,7 @@ const Mi:React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch( me());
-  }, []);
+  }, [dispatch]);
   const perfil = useSelector(( state:RootState ) => state.users.me );
   const loadme = useSelector(( state:RootState ) => state.users.loadme );
   return (

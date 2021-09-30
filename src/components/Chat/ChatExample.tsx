@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import {
   Card, CardContent,
-  CardActions, CardHeader, Fab, Avatar, Box, InputBase, Grid, Button,
+  CardActions, CardHeader, Fab, Box, InputBase, Grid, Button,
 } from '@material-ui/core';
 import { SendRounded, CloseRounded } from '@material-ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,9 +10,11 @@ import { format } from 'timeago.js';
 import { useStyles } from './Styles';
 import socket from '../Socket/Socket';
 import { closeChats } from '../../Redux/ducks/ChatDunks';
-import { loadeMessage, newMessage, newMessageRecived } from '../../Redux/ducks/messageDunks';
-import { MessageInterface } from '../../Interfaces/MessageInterface';
+import {
+  loadeMessage, newMessage, newMessageRecived,
+} from '../../Redux/ducks/messageDunks';
 import { IUser } from '../../Interfaces/UsersInterface';
+import { MessageInterface } from '../../Interfaces/MessageInterface';
 
 interface Ichat {
   chatSelect: any;
@@ -31,6 +34,7 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
   useEffect(() => {
     // eslint-disable-next-line no-underscore-dangle
     dispatch( loadeMessage( chatSelect._id ));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chatSelect]);
 
   useEffect(() => {
@@ -42,7 +46,6 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
         text: data.message,
         createdAt: Date.now(),
       });
-      socket.emit( 'recivide', { recivide: 'recivide' });
     });
   }, []);
 
@@ -50,28 +53,26 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
     if ( messageSoc ) {
       dispatch( newMessageRecived( messageSoc ));
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [messageSoc]);
 
   const submit = ( e:any ):void => {
     e.preventDefault();
+    // enviar mensaje a la base de datos
     const mensaje:MessageInterface = {
-      // eslint-disable-next-line no-underscore-dangle
       chatId: chatSelect._id,
-      // eslint-disable-next-line no-underscore-dangle
       sender: perfil._id,
       text: mensajeUser,
     };
     dispatch( newMessage( mensaje ));
-    // eslint-disable-next-line no-console
-    console.log( mensaje );
 
+    // enviar mensaje al servidor en tiempo real
     socket.emit( 'sendMessage', {
       message: mensajeUser,
-      // eslint-disable-next-line no-underscore-dangle
       senderId: perfil._id,
-      // eslint-disable-next-line no-underscore-dangle
       reciveId: chatSelect.userId._id,
     });
+
     setMensaje( '' );
   };
 
@@ -98,10 +99,9 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
               alignItems="center"
             >
               {/* eslint-disable-next-line max-len */}
-              <Avatar src="https://i1.wp.com/hipertextual.com/wp-content/uploads/2021/06/Google-Imagenes-Main-Site.jpg?resize=768%2C512&ssl=1" />
+              {/* <Avatar src="https://i1.wp.com/hipertextual.com/wp-content/uploads/2021/06/Google-Imagenes-Main-Site.jpg?resize=768%2C512&ssl=1" /> */}
               {/* eslint-disable-next-line max-len */}
               <h6 className={`${classes.noMargin} ${classes.userName}`}><b>{chatSelect.userId.username}</b></h6>
-              {/* <h6 className={`${classes.noMargin} ${classes.userName}`}><b>{chatSelect.userId.username === perfil.username && chatSelect.meId.username }</b></h6> */}
               <Box onClick={() => { onClick(); }}>
                 <CloseRounded />
               </Box>
@@ -120,7 +120,11 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
                     <p key={index.toString()} className={classes.you}>
                       {e.text}
                       <br />
-                      <Box fontSize="12px" display="flex" justifyContent="flex-end">
+                      <Box
+                        fontSize="12px"
+                        display="flex"
+                        justifyContent="flex-end"
+                      >
                         <Box>
                           {format( e.createdAt )}
                         </Box>

@@ -8,6 +8,7 @@ export interface IRoute {
   path: string;
   view: any | any[];
   name: ServerStreamFileResponseOptionsWithError;
+  privadeView: boolean;
 }
 
 export const routeList: IRoute[] = [
@@ -15,18 +16,22 @@ export const routeList: IRoute[] = [
     path: '/',
     name: 'Home',
     view: Home,
+    privadeView: false,
   },
   {
     path: '/register',
     name: 'Register',
     view: Register,
+    privadeView: true,
   }, {
     path: '/login',
     name: 'Login',
     view: Login,
+    privadeView: true,
   }, {
     path: '/search',
     name: 'Search',
     view: SearchContact,
+    privadeView: false,
   },
 ];

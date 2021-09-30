@@ -65,11 +65,15 @@ void, RootState, null, AnyAction
   dispatch( action.messageLoad( message.data.messages ));
 };
 
-export const newMessage = ( message:MessageInterface ):
+export const newMessage = ( message:MessageInterface | any ):
 ThunkAction<
 void, RootState, null, AnyAction
 > => async ( dispatch:any ) => {
+  // eslint-disable-next-line no-console
+  console.log( message );
   const savedMessage = await entreMessage( message );
+  // eslint-disable-next-line no-console
+  console.log( savedMessage );
   dispatch( action.messagenew( savedMessage.data ));
 };
 

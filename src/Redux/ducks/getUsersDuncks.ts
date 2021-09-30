@@ -9,6 +9,8 @@ export const actionTypes = {
   LOADINGME: 'LOADINGME',
   USER: 'USER',
   ME: 'ME',
+  ACTIVEUSER: 'ACTIVEUSER',
+  INITIAL: 'INITIAL',
 };
 
 export interface UserState{
@@ -16,6 +18,7 @@ export interface UserState{
   loadme:boolean;
   loaduser:[];
   me:[];
+  activeuser:[];
 }
 
 const initialState:UserState = {
@@ -23,6 +26,7 @@ const initialState:UserState = {
   loadme: true,
   loaduser: [],
   me: [],
+  activeuser: [],
 };
 
 export default function usersReducer( state = initialState, action:any ):any {
@@ -49,6 +53,36 @@ export default function usersReducer( state = initialState, action:any ):any {
         ...state,
         me: payload,
       };
+    case actionTypes.ACTIVEUSER:
+      // eslint-disable-next-line no-case-declarations
+      const act = state.activeuser.filter(
+        ( user:any ) => user.idUser === payload.idUser,
+      );
+
+      if ( act.length === 0 ) {
+        return {
+          ...state,
+          activeuser: [...state.activeuser, payload],
+        };
+      }
+      return {
+        ...state,
+      };
+
+    case actionTypes.INITIAL:
+      // eslint-disable-next-line no-case-declarations
+      const change = state.activeuser.filter(
+        ( user:any ) => user.idUser !== payload.idUser,
+      );
+      if ( change.length > 0 ) {
+        return {
+          ...state,
+          activeuser: change,
+        };
+      }
+      return {
+        ...state,
+      };
     default:
       return state;
   }
@@ -69,6 +103,14 @@ export const action = {
   }),
   loadme: ( payload:[]):AnyAction => ({
     type: actionTypes.ME,
+    payload,
+  }),
+  userconnect: ( payload:[]):AnyAction => ({
+    type: actionTypes.ACTIVEUSER,
+    payload,
+  }),
+  initial: ( payload:[]):AnyAction => ({
+    type: actionTypes.INITIAL,
     payload,
   }),
 };
@@ -93,4 +135,18 @@ void, RootState, null, AnyAction
   const res = await getMe();
   dispatch( action.loadme( res.data ));
   dispatch( action.loadingme( false ));
+};
+
+export const active = ( connect:any ):
+ThunkAction<
+void, RootState, null, AnyAction
+> => async ( dispatch:any ) => {
+  dispatch( action.userconnect( connect ));
+};
+
+export const desconect = ( initial:any ):
+ThunkAction<
+void, RootState, null, AnyAction
+> => async ( dispatch:any ) => {
+  dispatch( action.initial( initial ));
 };

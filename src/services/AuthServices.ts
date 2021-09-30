@@ -5,14 +5,14 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { ILoginData, IRegisterData } from '../Interfaces/AuthInterface';
 
-export const setToken = async ( token:string ) => {
+export const setToken = async ( token:string ):Promise<void> => {
   const threeHours = new Date( new Date().getTime() + 180 * 60 * 1000 );
   Cookies.set( 'Authorization', token, {
     expires: threeHours,
   });
 };
 
-export const getToken = ():any => {
+export const getToken = ():string | undefined => {
   return Cookies.get( 'Authorization' );
 };
 
@@ -25,7 +25,7 @@ export const deleteUser = async ( id:string ):Promise<any> => {
   return await axios.delete( `${API}/userAuth/${id}` );
 };
 
-export const getUserToken = async ( token:string ):Promise<any> => {
+export const getUserToken = async ( token:string | undefined ):Promise<any> => {
   if ( token ) {
     axios.defaults.headers.common.Authorization = `beader ${token}`;
   } else {
