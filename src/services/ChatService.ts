@@ -3,7 +3,7 @@
 /* eslint-disable no-return-await */
 import axios from 'axios';
 
-const API = 'http://localhost:4000/api';
+const API = 'https://elnetic.herokuapp.com/api';
 export const chatOpenService = async (
   userId:string | undefined,
 ):Promise<any> => {

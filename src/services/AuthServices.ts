@@ -16,7 +16,7 @@ export const getToken = ():string | undefined => {
   return Cookies.get( 'Authorization' );
 };
 
-const API = 'http://localhost:4000/api';
+const API = 'https://elnetic.herokuapp.com/api';
 export const registerNewUser = async ( data:IRegisterData ):Promise<any> => {
   return await axios.post<IRegisterData>( `${API}/userAuth`, data );
 };

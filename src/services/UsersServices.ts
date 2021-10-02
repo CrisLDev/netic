@@ -4,7 +4,7 @@
 import axios from 'axios';
 import { IUser } from '../Interfaces/UsersInterface';
 
-const API = 'http://localhost:4000/api';
+const API = 'https://elnetic.herokuapp.com/api';
 export const getAllUsers = async ():Promise<any> => {
   return await axios.get<IUser>( `${API}/allUser` );
 };
