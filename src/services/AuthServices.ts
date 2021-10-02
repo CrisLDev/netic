@@ -17,6 +17,7 @@ export const getToken = ():string | undefined => {
 };
 
 const API = 'https://elnetic.herokuapp.com/api';
+/* const API = 'http://localhost:4000/api'; */
 export const registerNewUser = async ( data:IRegisterData ):Promise<any> => {
   return await axios.post<IRegisterData>( `${API}/userAuth`, data );
 };
