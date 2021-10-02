@@ -3,13 +3,17 @@
 /* eslint-disable no-return-await */
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { IRegisterData } from '../Interfaces/AuthInterface';
+import { ILoginData, IRegisterData } from '../Interfaces/AuthInterface';
 
-export const setToken = async ( token:string ) => {
+export const setToken = async ( token:string ):Promise<void> => {
   const threeHours = new Date( new Date().getTime() + 180 * 60 * 1000 );
   Cookies.set( 'Authorization', token, {
     expires: threeHours,
   });
+};
+
+export const getToken = ():string | undefined => {
+  return Cookies.get( 'Authorization' );
 };
 
 const API = 'https://elnetic.herokuapp.com/api';
@@ -19,4 +23,16 @@ export const registerNewUser = async ( data:IRegisterData ):Promise<any> => {
 
 export const deleteUser = async ( id:string ):Promise<any> => {
   return await axios.delete( `${API}/userAuth/${id}` );
+};
+
+export const getUserToken = async ( token:string | undefined ):Promise<any> => {
+  if ( token ) {
+    axios.defaults.headers.common.Authorization = `beader ${token}`;
+  } else {
+    delete axios.defaults.headers.common.Authorization;
+  }
+};
+
+export const loginUser = async ( data:ILoginData ):Promise<any> => {
+  return await axios.post( `${API}/loginAuth`, data );
 };

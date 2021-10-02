@@ -7,10 +7,11 @@ import {
   makeStyles,
   TextField,
   Typography,
-  Paper,
 } from '@material-ui/core';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { authLogin } from '../../Redux/ducks/AuthDucks';
 
 type InputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
@@ -26,47 +27,43 @@ const useStyles = makeStyles({
     textDecoration: 'none',
     color: 'white',
   },
+  BackGround: {
+    backgroundColor: '#5A4FFD!important',
+    padding: '1rem',
+    width: '100%',
+  },
+  margen: {
+    margin: '0em',
+    padding: '0em',
+  },
 });
 
 const LoginForm: React.FC = () => {
   const classes = useStyles();
   const [loginInfo, setLoginInfo] = useState({
-    userName: '',
+    username: '',
     password: '',
   });
-  const [loggedError, setLoggedError] = useState( false );
+  const dispatch = useDispatch();
 
   const handleInputChange = ( e: InputChange ): void => {
     setLoginInfo({ ...loginInfo, [e.target.name]: e.target.value });
   };
 
-  const { userName, password } = loginInfo;
+  const { username, password } = loginInfo;
 
-  const history = useHistory();
-
-  const handleSubmit = ( e: FormEvent<HTMLFormElement> ): any => {
+  const handleSubmit = ( e: FormEvent<HTMLFormElement> ): void => {
     e.preventDefault();
-    if ( userName === 'admin' && password === 'admin' ) {
-      history.push( '/' );
-    }
-    setLoggedError( true );
-    setTimeout(() => {
-      setLoggedError( false );
-    }, 3000 );
+    dispatch( authLogin( loginInfo ));
   };
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.BackGround}>
       <Box display="block" alignContent="center" textAlign="center">
         <CardContent>
+          <h1 className={classes.margen}>#Contact Chat UI</h1>
           <h2>Login</h2>
-          {loggedError && (
-            <Paper elevation={1}>
-              <Box>
-                <h6>Haz introducido información incorrecta, porfavor intenta denuevo!</h6>
-              </Box>
-            </Paper>
-          )}
+
           <form
             noValidate
             autoComplete="off"
@@ -75,9 +72,9 @@ const LoginForm: React.FC = () => {
             <TextField
               id="nameUser"
               label="Name User"
-              name="userName"
+              name="username"
               onChange={handleInputChange}
-              value={userName}
+              value={username}
               fullWidth
               required
             />

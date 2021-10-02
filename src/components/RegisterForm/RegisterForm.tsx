@@ -45,7 +45,7 @@ const RegisterForm: React.FC = () => {
     setregisterForm({ ...registerForm, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = ( e: FormEvent<HTMLFormElement> ): any => {
+  const handleSubmit = ( e: FormEvent<HTMLFormElement> ): void => {
     e.preventDefault();
     dispatch( register( registerForm ));
   };

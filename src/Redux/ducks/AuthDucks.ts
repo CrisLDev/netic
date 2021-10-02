@@ -1,8 +1,10 @@
 import { toast } from 'react-toastify';
 import { AnyAction, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { IRegisterData } from '../../Interfaces/AuthInterface';
-import { registerNewUser, setToken } from '../../services/AuthServices';
+import { ILoginData, IRegisterData } from '../../Interfaces/AuthInterface';
+import {
+  loginUser, registerNewUser, setToken,
+} from '../../services/AuthServices';
 import { RootState } from '../Store';
 
 export const actionTypes = {
@@ -15,11 +17,13 @@ export const actionTypes = {
 export interface AuthState{
   loading:boolean;
   autheticated:boolean;
+  registerSuccess:boolean;
 }
 
 const initialState:AuthState = {
   loading: false,
   autheticated: false,
+  registerSuccess: false,
 };
 
 export default function authReducer( state = initialState, action:AnyAction ):any {
@@ -36,6 +40,11 @@ export default function authReducer( state = initialState, action:AnyAction ):an
         ...state,
         autheticated: payload,
       };
+    case actionTypes.REGISTER_SUCCESS:
+      return {
+        ...state,
+        registerSuccess: payload,
+      };
     default:
       return state;
   }
@@ -46,8 +55,9 @@ export const actions = {
     type: actionTypes.LOADING,
     payload,
   }),
-  registerSuccess: ():AnyAction => ({
+  AuthSucces: ( payload:boolean ):AnyAction => ({
     type: actionTypes.REGISTER_SUCCESS,
+    payload,
   }),
   registerFail: ():AnyAction => ({
     type: actionTypes.REGISTER_FAIL,
@@ -62,19 +72,37 @@ export const register = ( data:IRegisterData ):
 ThunkAction<
 void, RootState, null, AnyAction
 > => async ( dispatch:Dispatch ) => {
-  /* const config = {
-    headers: { 'Content-Type': 'application/json' },
-  }; */
-
   try {
     dispatch( actions.putLoading( true ));
-    const response = await registerNewUser( data );
-    setToken( response.data.token );
+    await registerNewUser( data );
     dispatch( actions.putLoading( false ));
-    dispatch( actions.registerSuccess());
     toast.success( 'register success' );
   } catch ( error ) {
     dispatch( actions.registerFail());
     toast.error( 'register Fail' );
   }
+};
+
+export const authLogin = ( data:ILoginData ):
+ThunkAction<
+void, RootState, null, AnyAction
+> => async ( dispatch:Dispatch ) => {
+  try {
+    dispatch( actions.putLoading( true ));
+    const response = await loginUser( data );
+    setToken( response.data.token );
+    dispatch( actions.putLoading( false ));
+    dispatch( actions.AuthSucces( true ));
+    toast.success( 'login success' );
+  } catch ( error ) {
+    dispatch( actions.registerFail());
+    toast.error( 'login Fail' );
+  }
+};
+
+export const authSaved = ( data:boolean ):
+ThunkAction<
+void, RootState, null, AnyAction
+> => async ( dispatch:Dispatch ) => {
+  dispatch( actions.AuthSucces( data ));
 };

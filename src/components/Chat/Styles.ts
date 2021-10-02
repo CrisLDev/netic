@@ -34,6 +34,11 @@ export const useStyles = makeStyles({
 
   heightCard: {
     minHeight: '20em',
+  },
 
+  cardContentHeight: {
+    maxHeight: '20em',
+    minHeight: '20em',
+    overflowY: 'auto',
   },
 });

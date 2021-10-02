@@ -69,9 +69,6 @@ const Navbar: React.FC<INavbarProps> = ( props ) => {
               Contact Chat UI
             </Typography>
 
-            <Link to="/search" className={classes.link}>
-              <Button color="inherit">Search User</Button>
-            </Link>
             <Link to="/" className={classes.link}>
               <Button color="inherit">Chat</Button>
             </Link>

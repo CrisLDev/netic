@@ -26,7 +26,20 @@ export const useStyles = makeStyles({
     textAlign: 'center',
     color: '#ffff',
   },
+  padding: {
+    padding: '0em',
+    margin: '0em',
+    // letras en minusculas
+    fontSize: '10px !important',
+    textTransform: 'lowercase',
+  },
 
+  colorConect: {
+    color: 'hsl(120, 100%, 50%)',
+  },
+  colorDisconect: {
+    color: `hsl(0,0%,19.61%)`,
+  },
 });
 
 export const ColorButton = withStyles(( theme: Theme ) => ({
