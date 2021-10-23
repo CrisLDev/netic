@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import {
@@ -110,6 +111,7 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
       <form onSubmit={submit}>
         <CardContent className={classes.cardContentHeight}>
           {
+            // eslint-disable-next-line array-callback-return
             arrayMessage.map(( e:any, index:number ) => {
               // eslint-disable-next-line no-underscore-dangle
               if ( e.sender === perfil._id ) {
@@ -131,17 +133,23 @@ const ChatExample: React.FC<Ichat> = ({ chatSelect, perfil }) => {
                   </Box>
                 );
               }
-              return (
-                <p className={classes.someone}>
-                  {e.text}
-                  <br />
-                  <Box fontSize="12px" display="flex" justifyContent="flex-end">
-                    <Box>
-                      {format( e.createdAt )}
+              if ( e.sender === chatSelect.userId._id ) {
+                return (
+                  <p className={classes.someone}>
+                    {e.text}
+                    <br />
+                    <Box
+                      fontSize="12px"
+                      display="flex"
+                      justifyContent="flex-end"
+                    >
+                      <Box>
+                        {format( e.createdAt )}
+                      </Box>
                     </Box>
-                  </Box>
-                </p>
-              );
+                  </p>
+                );
+              }
             })
           }
           <div id="scroll" />

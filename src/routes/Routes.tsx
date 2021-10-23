@@ -30,16 +30,6 @@ const Routes: React.FC = () => {
               return ( <route.view {...props} /> );
             }
             return <Redirect to="/login" />;
-
-            /* route.privadeView || auth ? (
-              route.privadeView === true || auth ? (
-                <Redirect to="/Home" />
-              ) : (
-                <route.view {...props} />
-              )
-            ) : (
-              <Redirect to="/login" />
-            ) */
           }}
         />
       ))}
